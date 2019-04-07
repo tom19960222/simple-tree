@@ -1,0 +1,15 @@
+{
+  "name": "simple-tree",
+  "version": "1.0.0",
+  "description": "Simple tree data structure library.",
+  "main": "index.js",
+  "author": "Ikaros",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1"
+  }
+}
