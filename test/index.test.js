@@ -66,4 +66,4 @@ test('Should return all its children of a node', () => {
   expect(childNodesOfSubNode1).toContainEqual(subSubSubNode1);
   expect(childNodesOfSubNode1).toContainEqual(subSubSubNode2);
   expect(childNodesOfSubNode1).toHaveLength(4);
-})
+});
