@@ -1,6 +1,6 @@
 {
   "name": "@tom19960222/simple-tree",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Simple tree data structure library.",
   "main": "index.js",
   "author": "Ikaros",
