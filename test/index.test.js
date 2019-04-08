@@ -12,7 +12,7 @@ test('Should initial a tree with root node provided', () => {
   const rootNode = new Node(data);
   const tree = new Tree(rootNode);
 
-  expect(tree.root).toBe(rootNode);
+  expect(tree.rootNodes).toEqual([rootNode]);
 });
 
 test('Should add node to tree under root node', () => {
