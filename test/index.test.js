@@ -103,13 +103,18 @@ test('Can insert all data to root node before relationship is known', () => {
   tree.addNode(null, subSubSubNode1);
   tree.addNode(null, subSubSubNode2);
 
+  tree.attachNode(2, 1);
   tree.attachNode(5, 2);
   tree.attachNode(6, 2);
-  tree.attachNode(2, 1);
 
   expect(tree.rootNodes).toEqual([rootNode]);
   expect(rootNode.childNodes).toEqual([subNode1]);
   expect(subNode1.childNodes).toContainEqual(subSubSubNode1);
   expect(subNode1.childNodes).toContainEqual(subSubSubNode2);
   expect(subNode1.childNodes).toHaveLength(2);
+
+  expect(rootNode.parentNodeId).toBe(null);
+  expect(subNode1.parentNodeId).toBe(1);
+  expect(subSubSubNode1.parentNodeId).toBe(2);
+  expect(subSubSubNode2.parentNodeId).toBe(2);
 });
