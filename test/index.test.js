@@ -90,3 +90,27 @@ test('Should return all its parents of a node', () => {
   expect(parentNodesOfSubNode1).toContainEqual(rootNode);
   expect(parentNodesOfSubNode1).toHaveLength(4);
 });
+
+test('Should change parent if node existed', () => {
+  const rootNode = new Node({ id: 1, data: { name: 'test1' } });
+  const subNode1 = new Node({ id: 2, data: { name: 'test2' } });
+  const subSubSubNode1 = new Node({ id: 5, data: { name: 'test5' } });
+  const subSubSubNode2 = new Node({ id: 6, data: { name: 'test5' } });
+
+  // Example data (category_id, sub_category_id): (2, 5), (2, 6), (1, 2)
+  const tree = new Tree();
+  tree.addNode(null, subNode1);
+  tree.addNode(2, subSubSubNode1);
+
+  tree.addNode(null, subNode1);
+  tree.addNode(2, subSubSubNode2);
+
+  tree.addNode(null, rootNode);
+  tree.addNode(1, subNode1);
+
+  expect(tree.rootNodes).toEqual([rootNode]);
+  expect(rootNode.childNodes).toEqual([subNode1]);
+  expect(subNode1.childNodes).toContainEqual(subSubSubNode1);
+  expect(subNode1.childNodes).toContainEqual(subSubSubNode2);
+  expect(subNode1.childNodes).toHaveLength(2);
+});
