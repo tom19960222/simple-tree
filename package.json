@@ -6,9 +6,13 @@
   "author": "Ikaros",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "build-watch": "tsc -w -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
+    "test": "NODE_ENV=testing jest",
+    "test-watch": "NODE_ENV=testing jest --watch"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.11",
     "@types/lodash": "^4.14.123",
     "eslint": "5.3.0",
     "eslint-config-airbnb": "17.1.0",
@@ -16,7 +20,8 @@
     "eslint-plugin-jest": "^22.4.1",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.0",
-    "jest": "^24.7.1"
+    "jest": "^24.7.1",
+    "typescript": "^3.4.4"
   },
   "repository": {
     "type": "git",
