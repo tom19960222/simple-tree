@@ -85,3 +85,4 @@ typings/
 
 # Build Javascript files.
 *.js
+dist/
