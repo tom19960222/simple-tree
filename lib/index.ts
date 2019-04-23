@@ -8,7 +8,7 @@ export interface NodeData {
 export class Node<I, D> {
   public id: I;
   public data: D;
-  public parentNodeId: I;
+  public parentNodeId: I | null;
   public childNodes: Node<I, D>[];
 
   constructor(data: NodeData) {
@@ -21,7 +21,7 @@ export class Node<I, D> {
     this.childNodes = [];
   }
 
-  _setParentNodeId(parentNodeId: I) {
+  _setParentNodeId(parentNodeId: I | null) {
     this.parentNodeId = parentNodeId;
   }
 
@@ -38,13 +38,13 @@ export class Tree<I, D> {
   public rootNodes: Node<I, D>[];
 
   constructor(rootNode?: Node<I, D>[] | Node<I, D>) {
-    this.rootNodes = _(rootNode)
+    this.rootNodes = _(rootNode || [])
       .castArray()
       .compact()
       .value();
   }
 
-  _findNode(nodeIdToFind, nodeList): Node<I, D> | null {
+  _findNode(nodeIdToFind: I, nodeList: Node<I, D>[]): Node<I, D> | null {
     let result = null;
 
     for (const node of nodeList) {
@@ -61,15 +61,22 @@ export class Tree<I, D> {
     return result;
   }
 
-  findNode(nodeIdToFind: I) {
+  findNode(nodeIdToFind: I | null) {
+    if (!nodeIdToFind) return null;
     return this._findNode(nodeIdToFind, this.rootNodes);
   }
 
   _changeNodeParent(nodeId: I, newParentNodeId: I) {
     const node = this.findNode(nodeId);
+    if (!node)
+      throw new Error(`Node id=${nodeId} not found when changing node parent.`);
 
     const oldParentNode = this.findNode(node.parentNodeId);
     const newParentNode = this.findNode(newParentNodeId);
+    if (!newParentNode)
+      throw new Error(
+        `Node id=${newParentNodeId} not found when changing node parent.`,
+      );
 
     if (oldParentNode) {
       const indexInChildNodeOfOldParentNode = oldParentNode.childNodes.findIndex(
@@ -95,7 +102,7 @@ export class Tree<I, D> {
     return this._changeNodeParent(nodeId, attachToNodeId);
   }
 
-  addNode(parentNodeId: I, node: Node<I, D>) {
+  addNode(parentNodeId: I | null, node: Node<I, D>) {
     const existedNode = this.findNode(node.id);
     if (existedNode) {
       throw new Error('This node has been existed.');
@@ -141,7 +148,7 @@ export class Tree<I, D> {
 
   getAllParentNodes(nodeId: I) {
     const nodeList: Node<I, D>[] = [];
-    let nextNodeId: I = nodeId;
+    let nextNodeId: I | null = nodeId;
 
     while (nextNodeId) {
       const node = this.findNode(nextNodeId);
