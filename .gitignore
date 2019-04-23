@@ -84,5 +84,4 @@ typings/
 .dynamodb/
 
 # Build Javascript files.
-*.js
 dist/
