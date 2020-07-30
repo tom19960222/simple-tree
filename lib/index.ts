@@ -80,12 +80,12 @@ export class Tree<I, D> {
 
     if (oldParentNode) {
       const indexInChildNodeOfOldParentNode = oldParentNode.childNodes.findIndex(
-        n => n.id === nodeId,
+        (n) => n.id === nodeId,
       );
       oldParentNode.childNodes.splice(indexInChildNodeOfOldParentNode, 1);
     }
     if (node.isRootNode()) {
-      const indexInRootNodes = this.rootNodes.findIndex(n => n.id === nodeId);
+      const indexInRootNodes = this.rootNodes.findIndex((n) => n.id === nodeId);
       this.rootNodes.splice(indexInRootNodes, 1);
     }
 
@@ -124,7 +124,7 @@ export class Tree<I, D> {
     node._setParentNodeId(parentNodeId);
   }
 
-  getAllChildNodes(nodeId: I) {
+  getAllChildNodes(nodeId: I): Node<I, D>[] {
     const nodeList: Node<I, D>[] = [];
     const nodeIdToWalk: I[] = [nodeId];
 
@@ -135,7 +135,7 @@ export class Tree<I, D> {
       if (!node) break;
 
       nodeList.push(node);
-      nodeIdToWalk.push(...node.childNodes.map(n => n.id));
+      nodeIdToWalk.push(...node.childNodes.map((n) => n.id));
 
       if (nodeIdToWalk.length - 1 <= i) {
         hasNextNode = false;
@@ -146,7 +146,7 @@ export class Tree<I, D> {
     return nodeList;
   }
 
-  getAllParentNodes(nodeId: I) {
+  getAllParentNodes(nodeId: I): Node<I, D>[] {
     const nodeList: Node<I, D>[] = [];
     let nextNodeId: I | null = nodeId;
 
