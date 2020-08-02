@@ -27,8 +27,8 @@ test('Should add node to tree under root node', () => {
   const tree = new Tree(rootNode);
   tree.addNode(1, subNode1);
 
-  expect(rootNode.childNodes.find(node => node.id === subNode1.id)).toBe(
-    subNode1,
+  expect(rootNode.childNodes.find((node) => node.id === subNode1.id)).toBe(
+    subNode1
   );
 });
 
@@ -56,11 +56,11 @@ test('Should add a node under specific node', () => {
   tree.addNode(4, subSubSubNode1);
   tree.addNode(4, subSubSubNode2);
 
-  expect(subSubNode1.childNodes.find(node => node.id === 5)).toBe(
-    subSubSubNode1,
+  expect(subSubNode1.childNodes.find((node) => node.id === 5)).toBe(
+    subSubSubNode1
   );
-  expect(subSubNode1.childNodes.find(node => node.id === 6)).toBe(
-    subSubSubNode2,
+  expect(subSubNode1.childNodes.find((node) => node.id === 6)).toBe(
+    subSubSubNode2
   );
   expect(subSubNode1.parentNodeId).toBe(2);
 });

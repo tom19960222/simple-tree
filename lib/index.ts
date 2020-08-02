@@ -21,16 +21,26 @@ export class Node<I, D> {
     this.childNodes = [];
   }
 
-  _setParentNodeId(parentNodeId: I | null) {
+  public _setParentNodeId(parentNodeId: I | null): void {
     this.parentNodeId = parentNodeId;
   }
 
-  _addChildNode(node: Node<I, D>) {
+  public _addChildNode(node: Node<I, D>): void {
     this.childNodes.push(node);
   }
 
-  isRootNode() {
+  public isRootNode(): boolean {
     return this.parentNodeId === null;
+  }
+
+  // eslint-disable-next-line
+  public toJSON() {
+    return {
+      id: this.id,
+      data: this.data,
+      parentNodeId: this.parentNodeId,
+      childNodes: this.childNodes,
+    };
   }
 }
 
@@ -44,7 +54,7 @@ export class Tree<I, D> {
       .value();
   }
 
-  _findNode(nodeIdToFind: I, nodeList: Node<I, D>[]): Node<I, D> | null {
+  public _findNode(nodeIdToFind: I, nodeList: Node<I, D>[]): Node<I, D> | null {
     let result = null;
 
     for (const node of nodeList) {
@@ -66,7 +76,7 @@ export class Tree<I, D> {
     return this._findNode(nodeIdToFind, this.rootNodes);
   }
 
-  _changeNodeParent(nodeId: I, newParentNodeId: I) {
+  public _changeNodeParent(nodeId: I, newParentNodeId: I): void {
     const node = this.findNode(nodeId);
     if (!node)
       throw new Error(`Node id=${nodeId} not found when changing node parent.`);
@@ -75,12 +85,12 @@ export class Tree<I, D> {
     const newParentNode = this.findNode(newParentNodeId);
     if (!newParentNode)
       throw new Error(
-        `Node id=${newParentNodeId} not found when changing node parent.`,
+        `Node id=${newParentNodeId} not found when changing node parent.`
       );
 
     if (oldParentNode) {
       const indexInChildNodeOfOldParentNode = oldParentNode.childNodes.findIndex(
-        (n) => n.id === nodeId,
+        (n) => n.id === nodeId
       );
       oldParentNode.childNodes.splice(indexInChildNodeOfOldParentNode, 1);
     }
@@ -98,11 +108,11 @@ export class Tree<I, D> {
     }
   }
 
-  attachNode(nodeId: I, attachToNodeId: I) {
+  public attachNode(nodeId: I, attachToNodeId: I): void {
     return this._changeNodeParent(nodeId, attachToNodeId);
   }
 
-  addNode(parentNodeId: I | null, node: Node<I, D>) {
+  public addNode(parentNodeId: I | null, node: Node<I, D>): void {
     const existedNode = this.findNode(node.id);
     if (existedNode) {
       throw new Error('This node has been existed.');
@@ -124,7 +134,7 @@ export class Tree<I, D> {
     node._setParentNodeId(parentNodeId);
   }
 
-  getAllChildNodes(nodeId: I): Node<I, D>[] {
+  public getAllChildNodes(nodeId: I): Node<I, D>[] {
     const nodeList: Node<I, D>[] = [];
     const nodeIdToWalk: I[] = [nodeId];
 
@@ -146,7 +156,7 @@ export class Tree<I, D> {
     return nodeList;
   }
 
-  getAllParentNodes(nodeId: I): Node<I, D>[] {
+  public getAllParentNodes(nodeId: I): Node<I, D>[] {
     const nodeList: Node<I, D>[] = [];
     let nextNodeId: I | null = nodeId;
 
