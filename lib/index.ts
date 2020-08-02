@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { isNil } from 'lodash';
 
 export interface NodeData {
   id: any;
@@ -61,8 +61,8 @@ export class Tree<I, D> {
     return result;
   }
 
-  findNode(nodeIdToFind: I | null) {
-    if (!nodeIdToFind) return null;
+  public findNode(nodeIdToFind: I | null): Node<I, D> | null {
+    if (isNil(nodeIdToFind)) return null;
     return this._findNode(nodeIdToFind, this.rootNodes);
   }
 
@@ -89,7 +89,7 @@ export class Tree<I, D> {
       this.rootNodes.splice(indexInRootNodes, 1);
     }
 
-    if (newParentNodeId) {
+    if (!isNil(newParentNodeId)) {
       newParentNode.childNodes.push(node);
       node.parentNodeId = newParentNode.id;
     } else {
@@ -108,7 +108,7 @@ export class Tree<I, D> {
       throw new Error('This node has been existed.');
     }
 
-    if (!parentNodeId) {
+    if (_.isNil(parentNodeId)) {
       // Add a root node.
       this.rootNodes.push(node);
       node._setParentNodeId(null);
