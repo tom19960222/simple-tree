@@ -3,6 +3,9 @@ lib/
 node_modules/
 test/
 .eslintrc
-jest.config.jest
+jest.config.js
 tsconfig.json
 yarn.lock
+try.js
+.prettierrc
+.eslintrc.js
