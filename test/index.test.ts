@@ -162,3 +162,54 @@ test('Can insert all data to root node before relationship is known', () => {
   expect(subSubSubNode1.parentNodeId).toBe(2);
   expect(subSubSubNode2.parentNodeId).toBe(2);
 });
+
+test('Can get all replation between nodes', () => {
+  const tree = new Tree<number, Data>();
+
+  const rootNode = new Node<number, Data>({ id: 0, data: { name: 'test' } });
+
+  const subNode1 = new Node<number, Data>({ id: 1, data: { name: 'test1' } });
+  const subNode2 = new Node<number, Data>({ id: 2, data: { name: 'test2' } });
+
+  const subNode11 = new Node<number, Data>({
+    id: 11,
+    data: { name: 'test11' },
+  });
+  const subNode12 = new Node<number, Data>({
+    id: 12,
+    data: { name: 'test12' },
+  });
+  const subNode21 = new Node<number, Data>({
+    id: 21,
+    data: { name: 'test21' },
+  });
+  const subNode22 = new Node<number, Data>({
+    id: 22,
+    data: { name: 'test22' },
+  });
+
+  const subNode111 = new Node<number, Data>({
+    id: 111,
+    data: { name: 'test111' },
+  });
+
+  tree.addNode(null, rootNode);
+  tree.addNode(rootNode.id, subNode1);
+  tree.addNode(rootNode.id, subNode2);
+  tree.addNode(subNode1.id, subNode11);
+  tree.addNode(subNode1.id, subNode12);
+  tree.addNode(subNode2.id, subNode21);
+  tree.addNode(subNode2.id, subNode22);
+  tree.addNode(subNode11.id, subNode111);
+
+  expect(tree.getRelationList()).toEqual([
+    { parentId: null, childId: 0 },
+    { parentId: 0, childId: 1 },
+    { parentId: 0, childId: 2 },
+    { parentId: 1, childId: 11 },
+    { parentId: 1, childId: 12 },
+    { parentId: 2, childId: 21 },
+    { parentId: 2, childId: 22 },
+    { parentId: 11, childId: 111 },
+  ]);
+});

@@ -160,4 +160,34 @@ export class Tree<I, D> {
 
     return nodeList;
   }
+
+  private getNodeRelationList(node: Node<I, D>): { parentId: I; childId: I }[] {
+    return node.childNodes.map((childNode) => {
+      return { parentId: node.id, childId: childNode.id };
+    });
+  }
+
+  public getRelationList(): { parentId: I | null; childId: I }[] {
+    const rootNodesRelationList: {
+      parentId: I | null;
+      childId: I;
+    }[] = this.rootNodes.map((rootNode) => {
+      return {
+        parentId: null,
+        childId: rootNode.id,
+      };
+    });
+
+    const allChildNodesOfRootNodes = _.flatten(
+      this.rootNodes.map((rootNode) => {
+        return this.getAllChildNodes(rootNode.id);
+      })
+    );
+
+    const childNodesRelationList = _.flatten(
+      allChildNodesOfRootNodes.map((node) => this.getNodeRelationList(node))
+    );
+
+    return [...rootNodesRelationList, ...childNodesRelationList];
+  }
 }
